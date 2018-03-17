@@ -10,22 +10,22 @@ public class MouseInput implements MouseMotionListener {
 		this.handler = handler;
 	}
 	public void mouseDragged(MouseEvent e) {
-		for(int i = 0; i < handler.object.size(); i++) {
-			GameObject tempObject = handler.object.get(i);
-			if(tempObject.getId() == ID.awsome) {
-				tempObject.setX(e.getX());
-				tempObject.setY(e.getY());
-			}
-		} 	
-	}
-
-	public void mouseMoved(MouseEvent e) {
 	/*	for(int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getId() == ID.awsome) {
 				tempObject.setX(e.getX());
 				tempObject.setY(e.getY());
-			}} */ 
+			}
+		} 	*/
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		for(int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+			if(tempObject.getId() == ID.awsome) {
+				tempObject.setX(e.getX());
+				tempObject.setY(e.getY());
+			}}  
 		
 	}
 
