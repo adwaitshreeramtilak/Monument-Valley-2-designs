@@ -10,65 +10,59 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean running = false;
 	private Handler handler;
-	public Game() // The Game constructor method .
-	{
-		handler = new Handler(); // A new object is made of type Handler.
+	public Game() 
+	{	handler = new Handler(); 
 		this.addMouseMotionListener(new MouseInput(handler));
-		new Window(1356, 720, "Let's Build a Game!", this);//We call the constructor of the Window class.
-		handler.addObject(new awsome(0, 0, ID.awsome/*, 0*/));
-	}//goto handler class line 20.
-	public synchronized void start() {//this is the start method
-		thread = new Thread(this);//we make the object thread of the type Thread with the parameters being this class i.e. the class game
-		thread.start();//this method calls the run method 
-		running = true;}// sets the value of running to be true
-	public synchronized void stop() {//this method is used to stop the thread. goto line 28.
-		try {thread.join();
-			running = false;}
-		catch(Exception e) {
-			e.printStackTrace();}}
-	
-	public void run() {//the method run. this method has our game loop.//from line 29 till line 35 we have declaration and initialization of the variables.
-		long lastTime = System.nanoTime();//this variable is assigned the time in nano seconds as this instruction is run
-        final double amountOfTicks = 60.0;//the value of game logic being run per second
-        double ns = 1000000000 / amountOfTicks;//'tis obvious as to what happens
-        double delta = 0;//'tis obvious as to what happens
-        int frames = 0;//'tis obvious as to what happens
-        int ticks = 0;//'tis obvious as to what happens
+		this.addKeyListener(new KeyInput(handler));
+		new Window(1356, 720, "Let's Build a Game!", this);
+		handler.addObject(new awsome(678, 360, ID.awsome, 5, 25));}
+	public synchronized void start() {
+		thread = new Thread(this);
+		thread.start(); 
+		running = true;}
+	public synchronized void stop() 
+	{	try {thread.join();running = false;}
+		catch(Exception e) {e.printStackTrace();}}
+	public void run() 
+	{	long lastTime = System.nanoTime();
+        final double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks;
+        double delta = 0;
+        int frames = 0;
+        int ticks = 0;
         long timer = System.currentTimeMillis();
-        while(running){//while loop with the variable running as the parameter with the boolean value true 
-            long now = System.nanoTime();//this variable is assigned the time in nano seconds as this instruction is run
-            delta += (now - lastTime) / ns;//'tis obvious as to what happens
-            lastTime = now;//'tis obvious as to what happens
-            while(delta >= 1){//'tis obvious as to what happens
-                tick();//method tick is being called
-                ticks++;//'tis obvious as to what happens
-                delta--;}//'tis obvious as to what happens
-            if(running)render();//the render method is being called
-            frames++;//'tis obvious as to what happens
+        while(running){ 
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while(delta >= 1){
+                tick();
+                ticks++;
+                delta--;}
+            if(running)render();
+            frames++;
             if(System.currentTimeMillis() - timer > 1000){
-                timer += 1000;//'tis obvious as to what happens
-                System.out.println("FPS: " + frames + " TPS: " + ticks);//we are supposed to print out the value of fps and tps
-                frames = 0;//'tis obvious as to what happens
-                ticks = 0;}}//'tis obvious as to what happens
-        stop();}//if we go out of the while loop we call the method stop
-	private void tick() {//the tick method
-		handler.tick();}//calls the method tick in the class handler
-	private void render() {//the render method
-		BufferStrategy bs = this.getBufferStrategy();//dont know what it does
-		if(bs == null) {//'tis obvious as to what happens
-			this.createBufferStrategy(3);//dont know what it does
-			return;//'tis obvious as to what happens
-			}
-		Graphics g = bs.getDrawGraphics();//new object g is made of the type graphics
+                timer += 1000;
+                System.out.println("FPS: " + frames + " TPS: " + ticks);
+                frames = 0;
+                ticks = 0;}}
+        stop();}
+	private void tick() {
+		handler.tick();}
+	private void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null) {
+			this.createBufferStrategy(2);
+			return;}
+		Graphics g = bs.getDrawGraphics();
 		Graphics2D g2 = (Graphics2D)g;
-		g.setColor(Color.white);//the color is set to white
-		g.fillRect(0, 0, 1356, 720);//a rectangle is drawn of the sixe which is in the parameters
+	//	g.setColor(Color.WHITE);
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 1356, 720);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		handler.render(g);//the method render is called which is the part of handler class
-		g.dispose();//dont know
-		bs.show();//dont know
-		}//goto Handler class. line 8
-	public static void main(String args[]) // This is our main Function
-	{new Game();}} // Calls and executes the "Game" constructor method /goto line 11
+		handler.render(g);
+		g.dispose();
+		bs.show();}
+	public static void main(String args[]){new Game();}}
 	

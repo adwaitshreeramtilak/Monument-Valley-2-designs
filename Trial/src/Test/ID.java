@@ -1,5 +1,2 @@
 package Test;
-
-public enum ID {
-	awsome();
-	}
+public enum ID {awsome();}
